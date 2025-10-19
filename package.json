@@ -1,11 +1,32 @@
 {
   "dependencies": {
-    "moment": "2.10.3",
-    "node-uuid": "1.4.3"
+    "moment": "^2.10.3",
+    "node-uuid": "^1.4.3"
   },
   "devDependencies": {
-    "aws-sdk": "2.4.2"
+    "aws-sdk": "^2.4.2"
   },
-  "bundledDependencies": ["moment", "node-uuid"],
-  "private": true
+  "private": true,
+  "bundleDependencies": [
+    "moment",
+    "node-uuid"
+  ],
+  "name": "apigateway",
+  "version": "1.0.0",
+  "description": "The example in this repository reuses the example from chapter 10 in [Amazon Web Services in Action](http://bit.ly/amazon-web-services-in-action). You can find the code for the original example in the book's [code repository](https://github.com/AWSinAction/code/tree/master/chapter10).",
+  "main": "lambda.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AWSinAction/apigateway.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AWSinAction/apigateway/issues"
+  },
+  "homepage": "https://github.com/AWSinAction/apigateway#readme"
 }

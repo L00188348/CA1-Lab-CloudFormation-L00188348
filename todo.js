@@ -32,7 +32,7 @@ function mapUserItem(item) {
 exports.getUsers = function(event, cb) {
   console.log("getUsers", JSON.stringify(event));
   var params = {
-    "TableName": "todo-user",
+    "TableName": "todo-user-romulo",
     "Limit": event.parameters.limit || 10
   };
   if (event.parameters.next) {
@@ -72,7 +72,7 @@ exports.postUser = function(event, cb) {
         "S": event.body.phone
       }
     },
-    "TableName": "todo-user",
+    "TableName": "todo-user-romulo",
     "ConditionExpression": "attribute_not_exists(uid)"
   };
   db.putItem(params, function(err) {
@@ -92,7 +92,7 @@ exports.getUser = function(event, cb) {
         "S": event.parameters.userId
       }
     },
-    "TableName": "todo-user"
+    "TableName": "todo-user-romulo"
   };
   db.getItem(params, function(err, data) {
     if (err) {
@@ -115,7 +115,7 @@ exports.deleteUser = function(event, cb) {
         "S": event.parameters.userId
       }
     },
-    "TableName": "todo-user"
+    "TableName": "todo-user-romulo"
   };
   db.deleteItem(params, function(err) {
     if (err) {
@@ -144,7 +144,7 @@ exports.postTask = function(event, cb) {
         "N": moment().format("YYYYMMDD")
       }
     },
-    "TableName": "todo-task",
+    "TableName": "todo-task-romulo",
     "ConditionExpression": "attribute_not_exists(uid) and attribute_not_exists(tid)"
   };
   if (event.body.dueat) {
@@ -175,7 +175,7 @@ exports.getTasks = function(event, cb) {
         "S": event.parameters.userId
       }
     },
-    "TableName": "todo-task",
+    "TableName": "todo-task-romulo",
     "Limit": event.parameters.limit || 10
   };
   if (event.parameters.next) {
@@ -239,7 +239,7 @@ exports.deleteTask = function(event, cb) {
         "N": event.parameters.taskId
       }
     },
-    "TableName": "todo-task"
+    "TableName": "todo-task-romulo"
   };
   db.deleteItem(params, function(err) {
     if (err) {
@@ -267,7 +267,7 @@ exports.putTask = function(event, cb) {
         "N": moment().format("YYYYMMDD")
       }
     },
-    "TableName": "todo-task"
+    "TableName": "todo-task-romulo"
   };
   db.updateItem(params, function(err) {
     if (err) {
@@ -287,7 +287,7 @@ exports.getTasksByCategory = function(event, cb) {
         "S": event.parameters.category
       }
     },
-    "TableName": "todo-task",
+    "TableName": "todo-task-romulo",
     "IndexName": "category-index",
     "Limit": event.parameters.limit || 10
   };
