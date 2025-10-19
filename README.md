@@ -126,3 +126,61 @@ aws apigateway get-rest-apis
 
 <img width="1037" height="356" alt="Screenshot 2025-10-19 at 13 40 12" src="https://github.com/user-attachments/assets/af75d346-d30f-4ecc-9c06-07231e89e4a5" />
 
+Then I tried to test the endpoint/user:
+curl https://ulq0c01moi.execute-api.us-east-1.amazonaws.com/prod/user
+and the return was an error: {"message": "Forbidden"}
+Romulos-MacBook-Pro:apigateway romulo$ curl https://ulq0c01moi.execute-api.us-east-1.amazonaws.com/prod/user
+{"message":"Forbidden"}Romulos-MacBook-Pro:apigateway romulo$ 
+After much testing, believing it was a permissions issue or that I'd executed something incorrectly, I remembered that I'd faced some issues before because my MAC is old. So I started checking to see if I had all the requirements and realized I didn't have NODE. I ran:
+
+<img width="835" height="276" alt="Screenshot 2025-10-19 at 13 47 03" src="https://github.com/user-attachments/assets/f538dbc4-cb0d-489c-87e8-90cf9129082e" />
+
+and reloaded the shell:
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+After that, the packagelambda.ziphas been repackaged including the foldernode_modules.
+I uploaded the new onelambda.zipto the S3 bucket and updated the Lambda function code using the command:
+aws lambda update-function-code \
+
+<img width="888" height="760" alt="Screenshot 2025-10-19 at 13 52 19" src="https://github.com/user-attachments/assets/fd1dc2b8-18b6-4b55-a64a-c1005b3c9416" />
+
+The function was successfully redeployed and now correctly imports modules.momentanduuid.
+Testes via API Gateway – Endpoint /user
+I performed direct integration tests viacurlon the public endpoint exposed by API Gateway.
+User creation:
+curl -X POST https://ulq0c01moi.execute-api.us-east-1.amazonaws.com/v1/user \
+  -H "Content-Type: application/json" \
+  -d '{"email": "teste@exemplo.com", "phone": "123456789"}'
+  
+<img width="845" height="157" alt="Screenshot 2025-10-19 at 13 57 53" src="https://github.com/user-attachments/assets/593358ff-2120-44a2-b351-2d398974ad33" />
+
+Testes via API Gateway – Endpoint /user/{uid}/task
+Creating a task associated with the user:
+curl -X POST https://ulq0c01moi.execute-api.us-east-1.amazonaws.com/v1/user/3573f66b-feac-459a-bad8-eeacb564146c/task \
+  -H "Content-Type: application/json" \
+  -d '{"category": "work", "description": "Prepare AWS report"}'
+  
+  <img width="998" height="115" alt="Screenshot 2025-10-19 at 14 10 07" src="https://github.com/user-attachments/assets/eb1dd5a6-8811-445d-bf5c-a4c7849b7827" />
+Task consultation:
+curl https://ulq0c01moi.execute-api.us-east-1.amazonaws.com/v1/user/3573f66b-feac-459a-bad8-eeacb564146c/task
+
+<img width="815" height="61" alt="Screenshot 2025-10-19 at 14 14 26" src="https://github.com/user-attachments/assets/6be26bbd-7400-4818-83d6-f92d72732880" />
+
+The data was correctly stored in DynamoDB and retrieved via API.
+
+8. References and Tutorials Used
+AWS CLI – Installation and Configuration: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+
+AWS S3 CLI – File Upload: https://docs.aws.amazon.com/AmazonS3/latest/userguide/upload-objects.html
+
+
+AWS Lambda Deployment com S3: https://docs.aws.amazon.com/lambda/latest/dg/nodejs-package.html
+
+
+CloudFormation – Criar Stack: https://docs.aws.amazon.com/cli/latest/reference/cloudformation/create-stack.html
+
+
+Repository base tutorial: https://cloudonaut.io/create-a-serverless-restful-api-with-api-gateway-cloudformation-lambda-and-dynamodb/
+
